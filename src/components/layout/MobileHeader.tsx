@@ -1,0 +1,138 @@
+import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { cn } from '../../lib/utils';
+import { Button } from '../ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
+import { 
+  Home, 
+  Package, 
+  ShoppingCart, 
+  BarChart3, 
+  Store,
+  LogOut,
+  User,
+  Menu,
+  CreditCard
+} from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '../../hooks/use-toast';
+
+interface MobileHeaderProps {
+  businessName?: string;
+}
+
+  const navigation = [
+    { name: 'Dashboard', href: '/dashboard', icon: Home },
+    { name: 'Products', href: '/products', icon: Package },
+    { name: 'Orders', href: '/orders', icon: ShoppingCart },
+    { name: 'Reports', href: '/reports', icon: BarChart3 },
+    { name: 'Subscription', href: '/subscription', icon: CreditCard },
+  ];
+
+export default function MobileHeader({ businessName }: MobileHeaderProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const { toast } = useToast();
+
+  const handleSignOut = async () => {
+    try {
+      await supabase.auth.signOut();
+      toast({
+        title: "Signed out",
+        description: "You have been successfully signed out.",
+      });
+    } catch (error) {
+      console.error('Sign out error:', error);
+      toast({
+        title: "Error",
+        description: "Failed to sign out.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  return (
+    <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border px-4 py-3">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <Store className="h-6 w-6 text-primary" />
+          <div>
+            <h1 className="text-base font-bold">QuickBilling</h1>
+            {businessName && (
+              <p className="text-xs text-muted-foreground">{businessName}</p>
+            )}
+          </div>
+        </div>
+
+        <Sheet open={isOpen} onOpenChange={setIsOpen}>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="sm">
+              <Menu className="h-5 w-5" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-64">
+            <div className="flex flex-col h-full">
+              {/* Logo */}
+              <div className="flex items-center gap-3 py-4 border-b border-border">
+                <Store className="h-6 w-6 text-primary" />
+                <div>
+                  <h1 className="text-base font-bold">QuickBilling</h1>
+                  {businessName && (
+                    <p className="text-xs text-muted-foreground">{businessName}</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Navigation */}
+              <nav className="flex-1 py-6">
+                <ul className="space-y-2">
+                  {navigation.map((item) => {
+                    const isActive = location.pathname === item.href;
+                    return (
+                      <li key={item.name}>
+                        <Link
+                          to={item.href}
+                          onClick={() => setIsOpen(false)}
+                          className={cn(
+                            'flex items-center gap-3 px-3 py-3 rounded-md text-sm font-medium transition-colors',
+                            isActive
+                              ? 'bg-primary text-primary-foreground'
+                              : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+                          )}
+                        >
+                          <item.icon className="h-5 w-5" />
+                          {item.name}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </nav>
+
+              {/* User section */}
+              <div className="py-4 border-t border-border">
+                <div className="flex items-center gap-3 mb-3 px-3">
+                  <div className="h-8 w-8 bg-accent rounded-full flex items-center justify-center">
+                    <User className="h-4 w-4" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium truncate">Restaurant Owner</p>
+                  </div>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleSignOut}
+                  className="w-full justify-start gap-2 px-3"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Sign Out
+                </Button>
+              </div>
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
+    </header>
+  );
+}

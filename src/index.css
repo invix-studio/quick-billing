@@ -1,0 +1,242 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Restaurant Billing System Design System
+All colors MUST be HSL. Professional restaurant theme with modern touch-friendly interface.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 99%;
+    --foreground: 222 20% 15%;
+
+    /* Restaurant Primary Colors */
+    --primary: 162 75% 25%;
+    --primary-foreground: 0 0% 98%;
+    --primary-hover: 162 75% 22%;
+
+    /* Restaurant Secondary & Accent */
+    --secondary: 25 85% 55%;
+    --secondary-foreground: 0 0% 98%;
+    --accent: 42 95% 58%;
+    --accent-foreground: 25 25% 15%;
+
+    /* Cards & Surfaces */
+    --card: 0 0% 100%;
+    --card-foreground: 222 20% 15%;
+    --surface: 0 0% 98%;
+    --surface-hover: 0 0% 96%;
+
+    /* Popover & Overlays */
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 20% 15%;
+
+    /* Muted Tones */
+    --muted: 210 15% 95%;
+    --muted-foreground: 215 15% 50%;
+
+    /* POS Interface Colors */
+    --pos-grid: 0 0% 97%;
+    --pos-item: 0 0% 100%;
+    --pos-item-hover: 162 25% 96%;
+    --cart-background: 220 15% 97%;
+    
+    /* Status Colors */
+    --success: 142 75% 35%;
+    --success-foreground: 0 0% 98%;
+    --warning: 42 95% 55%;
+    --warning-foreground: 25 25% 15%;
+    --error: 0 75% 55%;
+    --error-foreground: 0 0% 98%;
+
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 220 15% 90%;
+    --input: 220 15% 95%;
+    --input-focus: 162 35% 92%;
+    --ring: 162 75% 25%;
+
+    --radius: 0.75rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.25rem;
+
+    /* Animations & Transitions */
+    --transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --shadow-pos: 0 2px 8px -2px hsl(var(--primary) / 0.1);
+    --shadow-cart: 0 4px 16px -4px hsl(162 25% 25% / 0.15);
+    
+    /* Responsive Design Tokens */
+    --mobile-padding: 1rem;
+    --tablet-padding: 1.5rem;
+    --desktop-padding: 2rem;
+    
+    /* Touch Targets */
+    --touch-target: 44px;
+    --touch-target-lg: 48px;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222 35% 8%;
+    --foreground: 210 20% 92%;
+
+    /* Restaurant Dark Mode */
+    --primary: 162 65% 45%;
+    --primary-foreground: 222 35% 8%;
+    --primary-hover: 162 65% 48%;
+
+    --secondary: 25 75% 65%;
+    --secondary-foreground: 222 35% 8%;
+    --accent: 42 85% 68%;
+    --accent-foreground: 222 35% 8%;
+
+    --card: 222 35% 10%;
+    --card-foreground: 210 20% 92%;
+    --surface: 222 30% 12%;
+    --surface-hover: 222 30% 14%;
+
+    --popover: 222 35% 10%;
+    --popover-foreground: 210 20% 92%;
+
+    --muted: 222 25% 15%;
+    --muted-foreground: 215 15% 65%;
+
+    --pos-grid: 222 30% 12%;
+    --pos-item: 222 35% 10%;
+    --pos-item-hover: 162 25% 18%;
+    --cart-background: 222 25% 15%;
+
+    --success: 142 65% 45%;
+    --success-foreground: 222 35% 8%;
+    --warning: 42 85% 65%;
+    --warning-foreground: 222 35% 8%;
+    --error: 0 65% 65%;
+    --error-foreground: 222 35% 8%;
+
+    --destructive: 0 65% 65%;
+    --destructive-foreground: 222 35% 8%;
+
+    --border: 222 25% 18%;
+    --input: 222 25% 15%;
+    --input-focus: 162 25% 18%;
+    --ring: 162 65% 45%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-[var(--font-pos)] antialiased;
+  }
+
+  /* POS Interface Utilities */
+  .pos-grid {
+    @apply grid gap-3 sm:gap-4;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+  
+  @screen sm {
+    .pos-grid {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+  }
+  
+  @screen md {
+    .pos-grid {
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    }
+  }
+  
+  @screen lg {
+    .pos-grid {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+  }
+  
+  .pos-item {
+    @apply bg-[hsl(var(--pos-item))] hover:bg-[hsl(var(--pos-item-hover))] 
+           border border-border rounded-lg sm:rounded-xl p-3 sm:p-4 
+           transition-[var(--transition-base)] cursor-pointer select-none 
+           shadow-[var(--shadow-pos)] hover:shadow-lg active:scale-[0.98]
+           min-h-[120px] sm:min-h-[140px];
+  }
+  
+  .cart-area {
+    @apply bg-[hsl(var(--cart-background))] border-l border-border p-4 sm:p-6;
+  }
+
+  /* Mobile-specific styles */
+  .mobile-cart-overlay {
+    @apply fixed inset-0 bg-black/50 z-40 lg:hidden;
+  }
+  
+  .mobile-cart {
+    @apply fixed right-0 top-0 bottom-0 w-full max-w-sm bg-[hsl(var(--cart-background))] 
+           transform transition-transform duration-300 ease-out z-50;
+  }
+  
+  .mobile-cart.open {
+    @apply translate-x-0;
+  }
+  
+  .mobile-cart.closed {
+    @apply translate-x-full;
+  }
+
+  /* Responsive touch targets */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+  
+  .touch-target-lg {
+    @apply min-h-[48px] min-w-[48px];
+  }
+
+  /* Animations */
+  @keyframes pulse-success {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.9; }
+  }
+  
+  @keyframes slide-up {
+    from { transform: translateY(10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  
+  .animate-pulse-success {
+    animation: pulse-success 0.6s ease-out;
+  }
+  
+  .animate-slide-up {
+    animation: slide-up 0.3s ease-out;
+  }
+}
